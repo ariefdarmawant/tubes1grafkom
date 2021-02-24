@@ -115,7 +115,7 @@ async function main() {
         dragging = false;
         edittingObject = -1;
       } else {
-        if (edittingObject) {
+        if (edittingObject && typeof edittingObject[0] !== "undefined") {
           var arrTemp = [];
           colors["mycolors"].value.split(",").forEach((value) => {
             arrTemp.push(value);
