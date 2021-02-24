@@ -6,7 +6,6 @@ var type = (document.getElementById("type") as HTMLInputElement).value;
 var mode = (document.getElementById("mode") as HTMLInputElement).value;
 var editType = (document.getElementById("editType") as HTMLInputElement).value;
 var colors = document.getElementById("colorpick").elements;
-
 var teta: number;
 var coordinates = [];
 var countCoordinates: number;
