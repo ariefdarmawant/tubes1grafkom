@@ -10,7 +10,6 @@
 <body bgcolor="black">
     <h1>WebGL Paint</h1>
     <div class="flex-container">
-        <canvas id="gl-canvas" width="800" height="800"></canvas>
         <div>
             <select id="type" name="type">
                 <option value="lines" selected="selected">Lines</option>
@@ -36,23 +35,7 @@
     </div>
       
     <div>
-      <select id="type" name="type">
-        <option value="lines" selected="selected">Lines</option>
-        <option value="square">Square</option>
-        <option value="polygon">Polygon</option>
-      </select>
-      <select id="mode" name="mode">
-        <option value="create" selected="selected">Creating</option>
-        <option value="edit">Editting</option>
-      </select>
-      <button id="savefile">
-        Save
-      </button>
-      <select id="editType" name="editType">
-        <option value="drag" selected="selected">Drag</option>
-        <option value="recolor">Recolor</option>
-        <option value="resize">Resize</option>
-      </select>
+      
       <div id="colorbar" class="ribbonContainer">
         <form id="colorpick">
           <div>
@@ -183,8 +166,7 @@
       </button>
 
     </div>
-    <div>
-      <canvas id="gl-canvas" width="800" height="800"></canvas>
-    </div>
+    <canvas id="gl-canvas" width="800" height="800"></canvas>
 </body>
 </html>
+

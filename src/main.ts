@@ -114,6 +114,20 @@ async function main() {
       if (editType === "drag") {
         dragging = false;
         edittingObject = -1;
+      } else {
+        if (edittingObject) {
+          var arrTemp = [];
+          colors["mycolors"].value.split(",").forEach((value) => {
+            arrTemp.push(value);
+          });
+          renderer.objectList[edittingObject[0]].setColorArr(
+            new Float32Array(arrTemp)
+          );
+          renderer.objectList[edittingObject[0]].calcProjectionMatrix();
+          renderer.objectList[edittingObject[0]].bind();
+          renderer.render();
+          edittingObject = -1;
+        }
       }
     }
   });
@@ -155,9 +169,12 @@ async function main() {
           lineObject.bind();
           coordinates = [];
           renderer.addObject(lineObject);
-          console.log(renderer.objectList);
         }
       } else if (type === "square") {
+        var arrTemp = [];
+        colors["mycolors"].value.split(",").forEach((value) => {
+          arrTemp.push(value);
+        });
         coordinates.push(appState.mousePos.x);
         coordinates.push(appState.mousePos.y);
         if (coordinates.length === 4) {
@@ -199,8 +216,6 @@ async function main() {
           squareObject.bind();
           renderer.addObject(squareObject);
           coordinates = [];
-
-          console.log(renderer.objectList);
         }
       } else {
         if (countCoordinates > 0) {
@@ -234,7 +249,11 @@ async function main() {
         }
       }
     } else {
-      if (editType === "drag") {
+      if (editType === "recolor") {
+        edittingObject = getNearestObject(
+          appState.mousePos.x,
+          appState.mousePos.y
+        );
       }
     }
   });
@@ -262,7 +281,7 @@ async function main() {
             y,
             globject.vertexArray[count],
             globject.vertexArray[count + 1]
-          ) <= 0.3
+          ) <= 0.15
         ) {
           result = [index, count, count + 1];
           break;
@@ -293,10 +312,6 @@ async function main() {
     document.getElementById("loadfile").click();
   };
 
-  document.getElementById("helpPopUp").onclick = () => {
-    alert("Panduan ");
-  };
-
   document.getElementById("editType").onchange = function handleChange() {
     editType = (document.getElementById("editType") as HTMLInputElement).value;
   };
@@ -318,7 +333,7 @@ async function main() {
             JSONValue.type
           );
           objectToBePushed.setVertexArray(JSONValue.vertexArray);
-          objectToBePushed.setColorArr(JSONValue.colorArr);
+          objectToBePushed.setColorArr(new Float32Array(JSONValue.colorArr));
           objectToBePushed.setPosition(0, 0);
           objectToBePushed.setScale(1, 1);
           objectToBePushed.setRotation(360);

@@ -29,6 +29,16 @@ class GLObject {
     this.vertexArray = vertexArray;
   }
 
+  
+  getSaveJSON() {
+    return {
+      id: this.id,
+      vertexArray: this.vertexArray,
+      colorArr: Array.from(this.colorArr),
+      type: this.type,
+    };
+  }
+
   updateVertexArray(index: number, value: number) {
     this.vertexArray[index] = value;
   }
