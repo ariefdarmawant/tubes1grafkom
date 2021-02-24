@@ -10,6 +10,7 @@ class GLObject {
   public gl: WebGL2RenderingContext;
   public projectionMat: number[];
   public type: string;
+  public vbo : WebGLBuffer;
   constructor(
     id: number,
     shader: WebGLProgram,
@@ -54,16 +55,14 @@ class GLObject {
     const rotationMat = [cos, -sin, 0, sin, cos, 0, 0, 0, 1];
     const [k1, k2] = this.scale;
     const scaleMat = [k1, 0, 0, 0, k2, 0, 0, 0, 1];
-    const projectionMat = multiplyMatrix(
-      multiplyMatrix(rotationMat, scaleMat),
-      translateMat
-    );
+    const projectionMat = multiplyMatrix(multiplyMatrix(rotationMat,scaleMat), translateMat);
     this.projectionMat = projectionMat;
   }
 
   bind() {
     const gl = this.gl;
     const vertexBufferObject = gl.createBuffer();
+    this.vbo = vertexBufferObject;
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
     gl.bufferData(
       gl.ARRAY_BUFFER,
@@ -75,6 +74,7 @@ class GLObject {
   draw() {
     const gl = this.gl;
     gl.useProgram(this.shader);
+    gl.bindBuffer(gl.ARRAY_BUFFER,this.vbo);
     var vertexPos = gl.getAttribLocation(this.shader, "a_pos");
     var uniformCol = gl.getUniformLocation(this.shader, "u_fragColor");
     var uniformPos = gl.getUniformLocation(this.shader, "u_proj_mat");
@@ -84,8 +84,10 @@ class GLObject {
     gl.enableVertexAttribArray(vertexPos);
     if (this.type === "triangle") {
       gl.drawArrays(gl.TRIANGLES, 0, this.vertexArray.length / 2);
-    } else if(this.type==="point"){
+    } else if (this.type === "point") {
       gl.drawArrays(gl.POINTS, 0, this.vertexArray.length / 2);
+    } else if (this.type==="lines") {
+      gl.drawArrays(gl.LINES, 0, this.vertexArray.length - 1);
     }
   }
 }
