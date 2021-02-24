@@ -6,8 +6,7 @@ var type = (document.getElementById("type") as HTMLInputElement).value;
 var mode = (document.getElementById("mode") as HTMLInputElement).value;
 var editType = (document.getElementById("editType") as HTMLInputElement).value;
 var colors = document.getElementById("colorpick").elements;
-var colorArr = colors["mycolors"].value;
-console.log(colorArr);
+
 var teta: number;
 var coordinates = [];
 var countCoordinates: number;
@@ -53,58 +52,79 @@ async function main() {
   canvas.addEventListener(
     "mousemove",
     (event) => {
+      const bound = canvas.getBoundingClientRect();
+      const res = {
+        x: ((event.clientX - bound.left) / canvas.width) * 2 - 1,
+        y: -((event.clientY - bound.top) / canvas.height) * 2 + 1,
+      };
+      appState.mousePos = res;
+      if (mouseclick && dragging && edittingObject !== -1) {
+        var objIndex = edittingObject[0];
+        var i_x_obj = edittingObject[1];
+        var i_y_obj = edittingObject[2];
+        if (renderer.objectList[objIndex].type === "square") {
+          var value_1 = appState.mousePos.x;
+          var value_2 = appState.mousePos.y;
+          var deltaX =
+            value_1 -
+            renderer.objectList[objIndex].getVertexIndexValue(i_x_obj);
+          var deltaY =
+            value_2 -
+            renderer.objectList[objIndex].getVertexIndexValue(i_y_obj);
+          var delta = Math.min(deltaX, deltaY);
 
-        const bound = canvas.getBoundingClientRect();
-        const res = {
-          x: ((event.clientX - bound.left) / canvas.width) * 2 - 1,
-          y: -((event.clientY - bound.top) / canvas.height) * 2 + 1,
-        };
-        appState.mousePos = res;
-        if (mouseclick && dragging && edittingObject !== -1) {
-          var objIndex = edittingObject[0];
-          var i_x_obj = edittingObject[1];
-          var i_y_obj = edittingObject[2];
-          if (renderer.objectList[objIndex].type === 'square') {
-            var value_1 = appState.mousePos.x;
-            var value_2 = appState.mousePos.y;
-            var deltaX = value_1 - renderer.objectList[objIndex].getVertexIndexValue(i_x_obj);
-            var deltaY = value_2 - renderer.objectList[objIndex].getVertexIndexValue(i_y_obj);
-            var delta = Math.min(deltaX, deltaY);
-
-            if (i_x_obj == 0) {
-              var i_x_1 = 2;
-              var i_y_2 = 7;
-              deltaX = -delta;
-              deltaY = delta;
-            } else if (i_x_obj == 2) {
-              var i_x_1 = 0;
-              var i_y_2 = 5;
-              deltaX = -delta;
-              deltaY = -delta;
-            } else if (i_x_obj == 4) {
-              var i_x_1 = 6;
-              var i_y_2 = 3;
-              deltaX = delta;
-              deltaY = -delta;
-            } else {
-              var i_x_1 = 4;
-              var i_y_2 = 1;
-              deltaX = delta;
-              deltaY = delta;
-            }
-            console.log(deltaX + ' ' + deltaY);
-            renderer.objectList[objIndex].updateVertexArray(i_x_obj, value_1 + deltaX);
-            renderer.objectList[objIndex].updateVertexArray(i_y_obj, value_2 + deltaY);
-            renderer.objectList[objIndex].updateVertexArray(i_x_1, value_1 + deltaX);
-            renderer.objectList[objIndex].updateVertexArray(i_y_2, value_2 + deltaY);
+          if (i_x_obj == 0) {
+            var i_x_1 = 2;
+            var i_y_2 = 7;
+            deltaX = -delta;
+            deltaY = delta;
+          } else if (i_x_obj == 2) {
+            var i_x_1 = 0;
+            var i_y_2 = 5;
+            deltaX = -delta;
+            deltaY = -delta;
+          } else if (i_x_obj == 4) {
+            var i_x_1 = 6;
+            var i_y_2 = 3;
+            deltaX = delta;
+            deltaY = -delta;
           } else {
-            renderer.objectList[objIndex].updateVertexArray(i_x_obj, appState.mousePos.x);
-            renderer.objectList[objIndex].updateVertexArray(i_y_obj, appState.mousePos.y);
+            var i_x_1 = 4;
+            var i_y_2 = 1;
+            deltaX = delta;
+            deltaY = delta;
           }
-          renderer.objectList[edittingObject[0]].calcProjectionMatrix();
-          renderer.objectList[edittingObject[0]].bind();
-          renderer.render();
+          console.log(deltaX + " " + deltaY);
+          renderer.objectList[objIndex].updateVertexArray(
+            i_x_obj,
+            value_1 + deltaX
+          );
+          renderer.objectList[objIndex].updateVertexArray(
+            i_y_obj,
+            value_2 + deltaY
+          );
+          renderer.objectList[objIndex].updateVertexArray(
+            i_x_1,
+            value_1 + deltaX
+          );
+          renderer.objectList[objIndex].updateVertexArray(
+            i_y_2,
+            value_2 + deltaY
+          );
+        } else {
+          renderer.objectList[objIndex].updateVertexArray(
+            i_x_obj,
+            appState.mousePos.x
+          );
+          renderer.objectList[objIndex].updateVertexArray(
+            i_y_obj,
+            appState.mousePos.y
+          );
         }
+        renderer.objectList[edittingObject[0]].calcProjectionMatrix();
+        renderer.objectList[edittingObject[0]].bind();
+        renderer.render();
+      }
     },
     false
   );
@@ -134,6 +154,10 @@ async function main() {
     }
     if (mode === "create") {
       if (type === "lines") {
+        var arrTemp = [];
+        colors["mycolors"].value.split(",").forEach((value) => {
+          arrTemp.push(value);
+        });
         coordinates.push(appState.mousePos.x);
         coordinates.push(appState.mousePos.y);
         if (coordinates.length === 4) {
@@ -141,10 +165,10 @@ async function main() {
             renderer.count,
             program,
             gl,
-            "lines"
+            "lines",
+            new Float32Array(arrTemp)
           );
           lineObject.setVertexArray(coordinates);
-          lineObject.setColorArr(colorArr);
           lineObject.setPosition(0, 0);
           lineObject.setRotation(360);
           lineObject.setScale(1, 1);
@@ -164,14 +188,18 @@ async function main() {
           coordinates.push(coordinates[3] + deltaX);
           coordinates.push(coordinates[0] - deltaY);
           coordinates.push(coordinates[1] + deltaX);
+          var arrTemp = [];
+          colors["mycolors"].value.split(",").forEach((value) => {
+            arrTemp.push(value);
+          });
           const squareObject = new GLObject(
             renderer.count,
             program,
             gl,
-            "square"
+            "square",
+            new Float32Array(arrTemp)
           );
           squareObject.setVertexArray(coordinates);
-          squareObject.setColorArr(colorArr);
           squareObject.setPosition(0, 0);
           squareObject.setRotation(360);
           squareObject.setScale(1, 1);
@@ -190,6 +218,10 @@ async function main() {
           if (countCoordinates > 0) {
             console.log("Click " + countCoordinates + " more!");
           }
+          var arrTemp = [];
+          colors["mycolors"].value.split(",").forEach((value) => {
+            arrTemp.push(value);
+          });
           if (countCoordinates === 0) {
             console.log(coordinates);
             console.log("DONE");
@@ -197,10 +229,10 @@ async function main() {
               renderer.count,
               program,
               gl,
-              "polygon"
+              "polygon",
+              new Float32Array(arrTemp)
             );
             polygonObject.setVertexArray(coordinates);
-            polygonObject.setColorArr(colorArr);
             polygonObject.setPosition(0, 0);
             polygonObject.setRotation(360);
             polygonObject.setScale(1, 1);
@@ -208,7 +240,6 @@ async function main() {
             polygonObject.bind();
             console.log(polygonObject.vertexArray);
             renderer.addObject(polygonObject);
-
           }
         }
       }
@@ -244,7 +275,7 @@ async function main() {
             globject.vertexArray[count + 1]
           ) <= 0.3
         ) {
-          result = [index,count,count+1];
+          result = [index, count, count + 1];
           break;
         }
         count += 2;

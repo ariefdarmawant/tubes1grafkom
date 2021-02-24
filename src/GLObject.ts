@@ -11,27 +11,29 @@ class GLObject {
   public projectionMat: number[];
   public type: string;
   public vbo: WebGLBuffer;
-  public colorArr : number[];
+  public colorArr: Float32Array[];
   constructor(
     id: number,
     shader: WebGLProgram,
     gl: WebGL2RenderingContext,
-    type: string
+    type: string,
+    colorArr: Float32Array[]
   ) {
     this.id = id;
     this.shader = shader;
     this.gl = gl;
     this.type = type;
+    this.colorArr = colorArr;
   }
   setVertexArray(vertexArray: number[]) {
     this.vertexArray = vertexArray;
   }
 
-  updateVertexArray(index : number, value: number){
+  updateVertexArray(index: number, value: number) {
     this.vertexArray[index] = value;
   }
 
-  getVertexIndexValue(index: number): number{
+  getVertexIndexValue(index: number): number {
     return this.vertexArray[index];
   }
 
@@ -43,8 +45,8 @@ class GLObject {
     this.rot = rot;
   }
 
-  setColorArr(colorArr:number){
-    this.colorArr = colorArr; 
+  setColorArr(colorArr: Float32Array[]) {
+    this.colorArr = colorArr;
   }
   setScale(x: number, y: number) {
     this.scale = [x, y];
@@ -67,7 +69,10 @@ class GLObject {
     const rotationMat = [cos, -sin, 0, sin, cos, 0, 0, 0, 1];
     const [k1, k2] = this.scale;
     const scaleMat = [k1, 0, 0, 0, k2, 0, 0, 0, 1];
-    const projectionMat = multiplyMatrix(multiplyMatrix(rotationMat,scaleMat), translateMat);
+    const projectionMat = multiplyMatrix(
+      multiplyMatrix(rotationMat, scaleMat),
+      translateMat
+    );
     this.projectionMat = projectionMat;
   }
 
@@ -97,7 +102,7 @@ class GLObject {
     if (this.type === "lines") {
       gl.drawArrays(gl.LINES, 0, this.vertexArray.length - 1);
     } else if (this.type === "polygon" || this.type === "square") {
-      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length/2);
+      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length / 2);
     }
   }
 }
