@@ -1,0 +1,21 @@
+{
+  "name": "tubes1grafkom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "repository": "git+https://github.com/ariefdarmawant/tubes1grafkom.git",
+  "author": "Arief Darmawan <ariefdarmawantantriady@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ariefdarmawant/tubes1grafkom/issues"
+  },
+  "homepage": "https://github.com/ariefdarmawant/tubes1grafkom#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "snowpack": "^3.0.13"
+  }
+}
