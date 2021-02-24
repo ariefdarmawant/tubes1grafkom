@@ -5,7 +5,8 @@ const canvas = document.getElementById("gl-canvas") as HTMLCanvasElement;
 var type = (document.getElementById("type") as HTMLInputElement).value;
 var mode = (document.getElementById("mode") as HTMLInputElement).value;
 var editType = (document.getElementById("editType") as HTMLInputElement).value;
-var fileSelected = document.getElementById("loadfile");
+var fileSelected = document.getElementById("loadfile") as HTMLInputElement;
+var helpPopUp = document.getElementById("helpPopUp");
 var teta: number;
 var coordinates = [];
 var countCoordinates: number;
@@ -70,7 +71,6 @@ async function main() {
           var deltaY = Math.abs(
             value_2 - renderer.objectList[objIndex].getVertexIndexValue(i_y_obj)
           );
-          var size = Math.min(deltaX, deltaY);
 
           if (i_x_obj == 0) {
             var i_x_1 = 6;
@@ -275,6 +275,10 @@ async function main() {
 
   document.getElementById("loadtrigger").onclick = () => {
     document.getElementById("loadfile").click();
+  };
+
+  document.getElementById("helpPopUp").onclick = () => {
+    alert("Panduan ");
   };
 
   document.getElementById("editType").onchange = function handleChange() {

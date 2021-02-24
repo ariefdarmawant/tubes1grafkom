@@ -8,27 +8,31 @@
 </head>
 <body bgcolor="black">
     <h1>WebGL Paint</h1>
-    <canvas id="gl-canvas" width="800" height="800"></canvas>
-    <select id="type" name="type">
-        <option value="lines" selected="selected">Lines</option>
-        <option value="square">Square</option>
-        <option value="polygon">Polygon</option>
-      </select>
-      <select id="mode" name="mode">
-        <option value="create" selected="selected">Creating</option>
-        <option value="edit">Editting</option>
-      </select>
-      <button id="savefile">
-          Save
-      </button>
-      <select id="editType" name="editType">
-        <option value="drag" selected="selected">Drag</option>
-        <option value="recolor">Recolor</option>
-      </select>
-      <button id="loadtrigger">Load File</button>
-      <input type="file" id="loadfile" style="display:none">
-          Load
-      </button>
+    <div class="flex-container">
+        <canvas id="gl-canvas" width="800" height="800"></canvas>
+        <div>
+            <select id="type" name="type">
+                <option value="lines" selected="selected">Lines</option>
+                <option value="square">Square</option>
+                <option value="polygon">Polygon</option>
+              </select>
+              <select id="mode" name="mode">
+                <option value="create" selected="selected">Creating</option>
+                <option value="edit">Editting</option>
+              </select>
+              <button id="savefile">
+                  Save
+              </button>
+              <select id="editType" name="editType">
+                <option value="drag" selected="selected">Drag</option>
+                <option value="recolor">Recolor</option>
+              </select>
+              <button id="loadtrigger">Load File</button>
+              <input type="file" id="loadfile" style="display:none">
+                  Load
+            </input>
+        </div>
+    </div>
       
 </body>
 </html>
