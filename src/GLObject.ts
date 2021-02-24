@@ -26,6 +26,14 @@ class GLObject {
     this.vertexArray = vertexArray;
   }
 
+  updateVertexArray(index : number, value: number){
+    this.vertexArray[index] = value;
+  }
+
+  getVertexIndexValue(index: number): number{
+    return this.vertexArray[index];
+  }
+
   setPosition(x: number, y: number) {
     this.pos = [x, y];
   }
@@ -84,8 +92,8 @@ class GLObject {
     gl.enableVertexAttribArray(vertexPos);
     if (this.type === "lines") {
       gl.drawArrays(gl.LINES, 0, this.vertexArray.length - 1);
-    } else if (this.type === "polygon") {
-      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length - 1);
+    } else if (this.type === "polygon" || this.type === "square") {
+      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length/2);
     }
   }
 }
