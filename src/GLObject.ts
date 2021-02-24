@@ -11,6 +11,7 @@ class GLObject {
   public projectionMat: number[];
   public type: string;
   public vbo: WebGLBuffer;
+  public colorArr: Float32Array[];
   constructor(
     id: number,
     shader: WebGLProgram,
@@ -21,16 +22,30 @@ class GLObject {
     this.shader = shader;
     this.gl = gl;
     this.type = type;
+    this.colorArr = [0, 0, 0, 0];
   }
   setVertexArray(vertexArray: number[]) {
     this.vertexArray = vertexArray;
   }
 
-  updateVertexArray(index : number, value: number){
+  updateVertexArray(index: number, value: number) {
     this.vertexArray[index] = value;
   }
 
-  getVertexIndexValue(index: number): number{
+  setColorArr(colorArr: Float32Array[]) {
+    this.colorArr = colorArr;
+  }
+
+  getSaveJSON() {
+    return {
+      id: this.id,
+      vertexArray: this.vertexArray,
+      colorArr: this.colorArr,
+      type: this.type,
+    };
+  }
+
+  getVertexIndexValue(index: number): number {
     return this.vertexArray[index];
   }
 
@@ -63,7 +78,10 @@ class GLObject {
     const rotationMat = [cos, -sin, 0, sin, cos, 0, 0, 0, 1];
     const [k1, k2] = this.scale;
     const scaleMat = [k1, 0, 0, 0, k2, 0, 0, 0, 1];
-    const projectionMat = multiplyMatrix(multiplyMatrix(rotationMat,scaleMat), translateMat);
+    const projectionMat = multiplyMatrix(
+      multiplyMatrix(rotationMat, scaleMat),
+      translateMat
+    );
     this.projectionMat = projectionMat;
   }
 
@@ -88,12 +106,12 @@ class GLObject {
     var uniformPos = gl.getUniformLocation(this.shader, "u_proj_mat");
     gl.vertexAttribPointer(vertexPos, 2, gl.FLOAT, false, 0, 0);
     gl.uniformMatrix3fv(uniformPos, false, this.projectionMat);
-    gl.uniform4fv(uniformCol, [1.0, 0.0, 0.0, 1.0]);
+    gl.uniform4fv(uniformCol, this.colorArr);
     gl.enableVertexAttribArray(vertexPos);
     if (this.type === "lines") {
       gl.drawArrays(gl.LINES, 0, this.vertexArray.length - 1);
     } else if (this.type === "polygon" || this.type === "square") {
-      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length/2);
+      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length / 2);
     }
   }
 }

@@ -14,14 +14,12 @@ class Renderer {
     this.count++;
   }
 
-  objectListLength(){
+  objectListLength() {
     return this.objectList.length;
   }
 
-  removeObject(id: number) {
-    const idx = this.objectList.findIndex((obj) => obj.id === id);
-    this.objectList.splice(idx, 1);
-    this.count--;
+  clearObject() {
+    this.objectList = new Array<GLObject>();
   }
 
   render() {
