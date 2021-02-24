@@ -16,13 +16,14 @@ class GLObject {
     id: number,
     shader: WebGLProgram,
     gl: WebGL2RenderingContext,
-    type: string
+    type: string,
+    colorArr: Float32Array[]
   ) {
     this.id = id;
     this.shader = shader;
     this.gl = gl;
     this.type = type;
-    this.colorArr = [0, 0, 0, 0];
+    this.colorArr = colorArr;
   }
   setVertexArray(vertexArray: number[]) {
     this.vertexArray = vertexArray;
@@ -30,19 +31,6 @@ class GLObject {
 
   updateVertexArray(index: number, value: number) {
     this.vertexArray[index] = value;
-  }
-
-  setColorArr(colorArr: Float32Array[]) {
-    this.colorArr = colorArr;
-  }
-
-  getSaveJSON() {
-    return {
-      id: this.id,
-      vertexArray: this.vertexArray,
-      colorArr: this.colorArr,
-      type: this.type,
-    };
   }
 
   getVertexIndexValue(index: number): number {
@@ -57,6 +45,9 @@ class GLObject {
     this.rot = rot;
   }
 
+  setColorArr(colorArr: Float32Array[]) {
+    this.colorArr = colorArr;
+  }
   setScale(x: number, y: number) {
     this.scale = [x, y];
   }

@@ -6,7 +6,7 @@ var type = (document.getElementById("type") as HTMLInputElement).value;
 var mode = (document.getElementById("mode") as HTMLInputElement).value;
 var editType = (document.getElementById("editType") as HTMLInputElement).value;
 var fileSelected = document.getElementById("loadfile") as HTMLInputElement;
-var helpPopUp = document.getElementById("helpPopUp");
+var colors = document.getElementById("colorpick").elements;
 var teta: number;
 var coordinates = [];
 var countCoordinates: number;
@@ -133,10 +133,20 @@ async function main() {
     }
     if (mode === "create") {
       if (type === "lines") {
+        var arrTemp = [];
+        colors["mycolors"].value.split(",").forEach((value) => {
+          arrTemp.push(value);
+        });
         coordinates.push(appState.mousePos.x);
         coordinates.push(appState.mousePos.y);
         if (coordinates.length === 4) {
-          const lineObject = new GLObject(renderer.count, program, gl, "lines");
+          const lineObject = new GLObject(
+            renderer.count,
+            program,
+            gl,
+            "lines",
+            new Float32Array(arrTemp)
+          );
           lineObject.setVertexArray(coordinates);
           lineObject.setPosition(0, 0);
           lineObject.setRotation(360);
@@ -178,7 +188,8 @@ async function main() {
             renderer.count,
             program,
             gl,
-            "square"
+            "square",
+            new Float32Array(arrTemp)
           );
           squareObject.setVertexArray(arr);
           squareObject.setPosition(0, 0);
@@ -199,13 +210,18 @@ async function main() {
           if (countCoordinates > 0) {
             console.log("Click " + countCoordinates + " more!");
           }
+          var arrTemp = [];
+          colors["mycolors"].value.split(",").forEach((value) => {
+            arrTemp.push(value);
+          });
           if (countCoordinates === 0) {
             console.log("DONE");
             const polygonObject = new GLObject(
               renderer.count,
               program,
               gl,
-              "polygon"
+              "polygon",
+              new Float32Array(arrTemp)
             );
             polygonObject.setVertexArray(coordinates);
             polygonObject.setPosition(0, 0);
