@@ -11,6 +11,7 @@ class GLObject {
   public projectionMat: number[];
   public type: string;
   public vbo: WebGLBuffer;
+  public colorArr : number[];
   constructor(
     id: number,
     shader: WebGLProgram,
@@ -42,6 +43,9 @@ class GLObject {
     this.rot = rot;
   }
 
+  setColorArr(colorArr:number){
+    this.colorArr = colorArr; 
+  }
   setScale(x: number, y: number) {
     this.scale = [x, y];
   }
@@ -88,7 +92,7 @@ class GLObject {
     var uniformPos = gl.getUniformLocation(this.shader, "u_proj_mat");
     gl.vertexAttribPointer(vertexPos, 2, gl.FLOAT, false, 0, 0);
     gl.uniformMatrix3fv(uniformPos, false, this.projectionMat);
-    gl.uniform4fv(uniformCol, [1.0, 0.0, 0.0, 1.0]);
+    gl.uniform4fv(uniformCol, this.colorArr);
     gl.enableVertexAttribArray(vertexPos);
     if (this.type === "lines") {
       gl.drawArrays(gl.LINES, 0, this.vertexArray.length - 1);

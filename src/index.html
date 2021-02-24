@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebGL</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="main.js" type="module"></script>
 </head>
 <body bgcolor="black">
     <h1>WebGL Paint</h1>
-    <canvas id="gl-canvas" width="800" height="800"></canvas>
-    <select id="type" name="type">
+    <div>
+      <select id="type" name="type">
         <option value="lines" selected="selected">Lines</option>
         <option value="square">Square</option>
         <option value="polygon">Polygon</option>
@@ -19,12 +20,141 @@
         <option value="edit">Editting</option>
       </select>
       <button id="savefile">
-          Save
+        Save
       </button>
       <select id="editType" name="editType">
         <option value="drag" selected="selected">Drag</option>
         <option value="recolor">Recolor</option>
         <option value="resize">Resize</option>
       </select>
+      <div id="colorbar" class="ribbonContainer">
+        <form id="colorpick">
+          <div>
+            <div>
+              <input name="mycolors" class="colors" id="black" type="radio" value="0.0, 0.0, 0.0, 1.0" checked="checked">
+              <label for="black" style="color: rgb(0, 0, 0); background-color: rgb(0, 0, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="white" type="radio" value="1.0, 1.0, 1.0, 1.0">
+              <label for="white" style="color: rgb(255, 255, 255); background-color: rgb(255, 255, 255);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="red" type="radio" value="1.0, 0.0, 0.0, 1.0">
+              <label for="red" style="color: rgb(255, 0, 0); background-color: rgb(255, 0, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="green" type="radio" value="0, 1, 0, 1.0">
+              <label for="green" style="color: rgb(0, 255, 0); background-color: rgb(0, 255, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="blue" type="radio" value="0, 0, 1, 1.0">
+              <label for="blue" style="color: rgb(0, 0, 255); background-color: rgb(0, 0, 255);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="yellow" type="radio" value="1, 1, 0, 1.0">
+              <label for="yellow" style="color: rgb(255, 255, 0); background-color: rgb(255, 255, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-0" type="radio" value="0.501, 0.501, 0, 1.0">
+              <label for="color-0" style="color: rgb(128, 255, 128); background-color: rgb(128, 255, 128);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-1" type="radio" value="0.501, 0.501, 0, 1.0">
+              <label for="color-1" style="color: rgb(0, 255, 128); background-color: rgb(0, 255, 128);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-2" type="radio" value="0.501, 1, 1, 1.0">
+              <label for="color-2" style="color: rgb(128, 255, 255); background-color: rgb(128, 255, 255);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-3" type="radio" value="0, 0.501, 1, 1.0">
+              <label for="color-3" style="color: rgb(0, 128, 255); background-color: rgb(0, 128, 255);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-4" type="radio" value="1, 0.501, 0.752, 1.0">
+              <label for="color-4" style="color: rgb(255, 128, 192); background-color: rgb(255, 128, 192);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-5" type="radio" value="0.501, 0.250, 0.250, 1.0">
+              <label for="color-5" style="color: rgb(128, 64, 64); background-color: rgb(128, 64, 64);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-6" type="radio" value="1, 0.501, 0, 1.0">
+              <label for="color-6" style="color: rgb(255, 128, 0); background-color: rgb(255, 128, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-7" type="radio" value="0, 0.501, 0, 1.0">
+              <label for="color-7" style="color: rgb(0, 128, 0); background-color: rgb(0, 128, 0);"></label>
+            </div>
+          </div>
+          <div>
+            <div>
+              <input name="mycolors" class="colors" id="color-8" type="radio" value="0, 0, 0.627, 1.0">
+              <label for="color-8" style="color: rgb(0, 0, 160); background-color: rgb(0, 0, 160);">
+              </label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-9" type="radio" value="0.501, 0, 0.501, 1.0">
+              <label for="color-9" style="color: rgb(128, 0, 128); background-color: rgb(128, 0, 128);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-10" type="radio" value="0.501, 0, 1.0 , 1.0">
+              <label for="color-10" style="color: rgb(128, 0, 255); background-color: rgb(128, 0, 255);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-11" type="radio" value="0.250, 0, 0 , 1.0">
+              <label for="color-11" style="color: rgb(64, 0, 0); background-color: rgb(64, 0, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-12" type="radio" value="0, 0.250, 0, 1.0">
+              <label for="color-12" style="color: rgb(0, 64, 0); background-color: rgb(0, 64, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-13" type="radio" value="0, 0, 0.501, 1.0">
+              <label for="color-13" style="color: rgb(0, 0, 128); background-color: rgb(0, 0, 128);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-14" type="radio" value="0.250, 0, 0.250, 1.0">
+              <label for="color-14" style="color: rgb(64, 0, 64); background-color: rgb(64, 0, 64);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-15" type="radio" value="0.501, 0.501, 0, 1.0">
+              <label for="color-15" style="color: rgb(128, 128, 0); background-color: rgb(128, 128, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-16" type="radio" value="0.501, 0.501, 0.501, 1.0">
+              <label for="color-16" style="color: rgb(128, 128, 128); background-color: rgb(128, 128, 128);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-17" type="radio" value="0.250, 0.501, 0.501, 1.0">
+              <label for="color-17" style="color: rgb(64, 128, 128); background-color: rgb(64, 128, 128);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-18" type="radio" value="0.752, 0752, 0.752, 1.0">
+              <label for="color-18" style="color: rgb(192, 192, 192); background-color: rgb(192, 192, 192);">
+              </label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-19" type="radio" value="1, 1, 0, 1.0">
+              <label for="color-19" style="color: rgb(255, 255, 0); background-color: rgb(255, 255, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-20" type="radio" value="0.501 , 0, 0, 1.0">
+              <label for="color-20" style="color: rgb(128, 0, 0); background-color: rgb(128, 0, 0);"></label>
+            </div>
+            <div>
+              <input name="mycolors" class="colors" id="color-21" type="radio" value="0.784, 0, 0.230, 1.0">
+              <label for="color-21" style="color: rgb(200, 0, 230); background-color: rgb(200, 0, 230);"></label>
+            </div>
+          </div>
+        </form>
+      <div>
+      </div>
+          <div class="label">colors</div>
+      </div>
+    </div>
+    <div>
+      <canvas id="gl-canvas" width="800" height="800"></canvas>
+    </div>
 </body>
 </html>

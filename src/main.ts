@@ -5,6 +5,9 @@ const canvas = document.getElementById("gl-canvas") as HTMLCanvasElement;
 var type = (document.getElementById("type") as HTMLInputElement).value;
 var mode = (document.getElementById("mode") as HTMLInputElement).value;
 var editType = (document.getElementById("editType") as HTMLInputElement).value;
+var colors = document.getElementById("colorpick").elements;
+var colorArr = colors["mycolors"].value;
+console.log(colorArr);
 var teta: number;
 var coordinates = [];
 var countCoordinates: number;
@@ -50,6 +53,7 @@ async function main() {
   canvas.addEventListener(
     "mousemove",
     (event) => {
+
         const bound = canvas.getBoundingClientRect();
         const res = {
           x: ((event.clientX - bound.left) / canvas.width) * 2 - 1,
@@ -66,7 +70,7 @@ async function main() {
             var deltaX = value_1 - renderer.objectList[objIndex].getVertexIndexValue(i_x_obj);
             var deltaY = value_2 - renderer.objectList[objIndex].getVertexIndexValue(i_y_obj);
             var delta = Math.min(deltaX, deltaY);
-            
+
             if (i_x_obj == 0) {
               var i_x_1 = 2;
               var i_y_2 = 7;
@@ -140,6 +144,7 @@ async function main() {
             "lines"
           );
           lineObject.setVertexArray(coordinates);
+          lineObject.setColorArr(colorArr);
           lineObject.setPosition(0, 0);
           lineObject.setRotation(360);
           lineObject.setScale(1, 1);
@@ -166,6 +171,7 @@ async function main() {
             "square"
           );
           squareObject.setVertexArray(coordinates);
+          squareObject.setColorArr(colorArr);
           squareObject.setPosition(0, 0);
           squareObject.setRotation(360);
           squareObject.setScale(1, 1);
@@ -194,6 +200,7 @@ async function main() {
               "polygon"
             );
             polygonObject.setVertexArray(coordinates);
+            polygonObject.setColorArr(colorArr);
             polygonObject.setPosition(0, 0);
             polygonObject.setRotation(360);
             polygonObject.setScale(1, 1);
@@ -201,6 +208,7 @@ async function main() {
             polygonObject.bind();
             console.log(polygonObject.vertexArray);
             renderer.addObject(polygonObject);
+
           }
         }
       }
