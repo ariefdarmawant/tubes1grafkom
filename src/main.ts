@@ -73,6 +73,7 @@ async function main() {
           renderer.addObject(lineObject);
           console.log(renderer.objectList);
         }
+<<<<<<< HEAD
       } else if (type === "square") {
         console.log("square clicked");
         coordinates.push(appState.mousePos.x);
@@ -128,6 +129,82 @@ async function main() {
             console.log(polygonObject.vertexArray);
             renderer.addObject(polygonObject);
           }
+=======
+      }
+      else if((document.getElementById("type") as HTMLInputElement).value == "square"){
+        lines.push(appState.mousePos.x);
+        lines.push(appState.mousePos.y);
+        if (lines.length == 4) {
+          var square = [];
+          square[0] = lines[0];
+          square[2] = lines[0];
+          square[1] = lines[1];
+          square[7] = lines[1];
+          square[4] = lines[2];
+          square[6] = lines[2];
+          square[3] = lines[3];
+          square[5] = lines[3];
+          var line1 =[]
+          var line2 =[]
+          var line3 =[]
+          var line4 =[]
+          line1.push(square[0]);
+          line1.push(square[1]);
+          line1.push(square[2]);
+          line1.push(square[3]);
+          line2.push(square[2]);
+          line2.push(square[3]);
+          line2.push(square[4]);
+          line2.push(square[5]);
+          line3.push(square[4]);
+          line3.push(square[5]);
+          line3.push(square[6]);
+          line3.push(square[7]);
+          line4.push(square[6]);
+          line4.push(square[7]);
+          line4.push(square[0]);
+          line4.push(square[1]);
+          const line1Object = new GLObject(renderer.count, program, gl, "lines");
+          line1Object.setVertexArray(line1);
+          line1Object.setPosition(0, 0);
+          line1Object.setRotation(360);
+          line1Object.setScale(1, 1);
+          line1Object.calcProjectionMatrix();
+          line1Object.bind();
+          lines = [];
+          renderer.addObject(line1Object);
+          console.log(renderer.objectList);
+          const line2Object = new GLObject(renderer.count, program, gl, "lines");
+          line2Object.setVertexArray(line2);
+          line2Object.setPosition(0, 0);
+          line2Object.setRotation(360);
+          line2Object.setScale(1, 1);
+          line2Object.calcProjectionMatrix();
+          line2Object.bind();
+          lines = [];
+          renderer.addObject(line2Object);
+          console.log(renderer.objectList);
+          const line3Object = new GLObject(renderer.count, program, gl, "lines");
+          line3Object.setVertexArray(line3);
+          line3Object.setPosition(0, 0);
+          line3Object.setRotation(360);
+          line3Object.setScale(1, 1);
+          line3Object.calcProjectionMatrix();
+          line3Object.bind();
+          lines = [];
+          renderer.addObject(line3Object);
+          console.log(renderer.objectList);
+          const line4Object = new GLObject(renderer.count, program, gl, "lines");
+          line4Object.setVertexArray(line4);
+          line4Object.setPosition(0, 0);
+          line4Object.setRotation(360);
+          line4Object.setScale(1, 1);
+          line4Object.calcProjectionMatrix();
+          line4Object.bind();
+          lines = [];
+          renderer.addObject(line4Object);
+          console.log(renderer.objectList);
+>>>>>>> ddc3ce54233effcb4dd07ad41c0250b39407638d
         }
       }
     },
