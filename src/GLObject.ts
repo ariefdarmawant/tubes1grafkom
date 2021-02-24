@@ -10,7 +10,7 @@ class GLObject {
   public gl: WebGL2RenderingContext;
   public projectionMat: number[];
   public type: string;
-  public vbo : WebGLBuffer;
+  public vbo: WebGLBuffer;
   constructor(
     id: number,
     shader: WebGLProgram,
@@ -74,7 +74,7 @@ class GLObject {
   draw() {
     const gl = this.gl;
     gl.useProgram(this.shader);
-    gl.bindBuffer(gl.ARRAY_BUFFER,this.vbo);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
     var vertexPos = gl.getAttribLocation(this.shader, "a_pos");
     var uniformCol = gl.getUniformLocation(this.shader, "u_fragColor");
     var uniformPos = gl.getUniformLocation(this.shader, "u_proj_mat");
@@ -82,12 +82,10 @@ class GLObject {
     gl.uniformMatrix3fv(uniformPos, false, this.projectionMat);
     gl.uniform4fv(uniformCol, [1.0, 0.0, 0.0, 1.0]);
     gl.enableVertexAttribArray(vertexPos);
-    if (this.type === "triangle") {
-      gl.drawArrays(gl.TRIANGLES, 0, this.vertexArray.length / 2);
-    } else if (this.type === "point") {
-      gl.drawArrays(gl.POINTS, 0, this.vertexArray.length / 2);
-    } else if (this.type==="lines") {
+    if (this.type === "lines") {
       gl.drawArrays(gl.LINES, 0, this.vertexArray.length - 1);
+    } else if (this.type === "polygon") {
+      gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexArray.length - 1);
     }
   }
 }
